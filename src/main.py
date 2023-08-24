@@ -2,6 +2,7 @@ from read_input import ReadingInputData
 from ndvi_calc import CalcForNdvi
 from output import OutputData
 import json
+import logging
 read_inp_obj = ReadingInputData()
 ndvi_calc_obj = CalcForNdvi()
 output_obj = OutputData()
@@ -59,3 +60,4 @@ if __name__ == "__main__":
     sentinel_2_imagery_b2 = inp_data['sentinel_2_imagery_b2']
     json_file = inp_data['json_file']
     HealthyVegetationArea(sentinel_2_imagery_b1, sentinel_2_imagery_b2, json_file)
+    logging.info("Task completed")
