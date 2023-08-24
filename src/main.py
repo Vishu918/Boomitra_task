@@ -33,22 +33,17 @@ class HealthyVegetationArea:
         self.b = read_inp_obj.open_tif_data(self.nir_path, self.red_path)
 
     def NDVI_calculations(self):
-        self.nir = read_inp_obj.nir
-        self.red = read_inp_obj.red
+        self.nir = read_inp_obj.subset_b8
+        self.red = read_inp_obj.subset_b4
         ndvi_calc_obj.calc(self.nir, self.red)
 
     def store_output_data(self):
-        self.poly_feature = read_inp_obj.feature
-        self.nir_src = read_inp_obj.nir_src
-        self.window = read_inp_obj.window
-        self.window_transform = read_inp_obj.window_transform
         self.ndvi_array = ndvi_calc_obj.ndvi
         self.mean_val = ndvi_calc_obj.ndvi_mean
         self.min_val = ndvi_calc_obj.ndvi_min
         self.max_val = ndvi_calc_obj.ndvi_max
 
-        output_obj.output_png_data(self.poly_feature, self.nir_src, self.ndvi_array,
-                                   self.window, self.window_transform)
+        output_obj.output_png_data(self.ndvi_array)
         output_obj.output_csv_data(self.mean_val, self.min_val , self.max_val)
 
 
