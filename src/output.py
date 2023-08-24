@@ -1,39 +1,51 @@
-import rasterio
-import pandas as pd
 import os.path
 import matplotlib.pyplot as plt
+import pandas as pd
+from logger_module import logger
+
 class OutputData:
-    def __int__(self):
+    """
+    A class to handle generation and storage of output. 
+
+    Attributes:
+        None
+    """
+    def __init__(self):
         pass
 
-    def output_png_data(self,  ndvi ):
-        # # Save the masked NDVI to one tif per polygon
-        # output_folder = r'output'
-        # ndvi_path = f'ndvi_{feature["properties"]["Partner ID"]}.png'
-        #
-        # meta = nir_src.meta
-        # # Don't forget to update the dtype! Your original code didn't, so the Int16 output truncated NDVI values to
-        # # all 0's
-        # meta.update({"driver": "GTiff", "dtype": ndvi.dtype, "height": window.height, "width": window.width,
-        #              "transform": window_transform})
-        # with rasterio.open(os.path.join(output_folder,ndvi_path), 'w', **meta) as dst:
-        #     dst.write(ndvi)
+    def output_png_data(self, ndvi):
+        """
+        Generate and save NDVI PNG image.
 
-        # Create PNG image of NDVI array
+        Parameters:
+            ndvi (numpy.ndarray): NDVI array    
+        """
+        logger.info("Generating NDVI PNG image")
         plt.imshow(ndvi, cmap='RdYlGn')
         plt.colorbar(label='NDVI')
-        plt.savefig('ndvi_image.png')
-        plt.close()
-
-    def output_csv_data(self, ndvi_mean,  ndvi_min , ndvi_max):
-        parameter = ["mean_ndvi", "minimum_ndvi", "maximim_ndvi"]
-        value = [ndvi_mean, ndvi_min , ndvi_max]
-        ndvi_params_dict = {'parameters':parameter, 'value':value}
-        ndvi_params_df = pd.DataFrame(ndvi_params_dict)
-        output_folder = r'output'
+        output_folder = '../output'
         if not os.path.exists(output_folder):
             os.makedirs(output_folder)
-        ndvi_params_df.to_csv(os.path.join(output_folder,'output.csv'))
+        plt.savefig(os.path.join(output_folder, 'ndvi_image.png'))
+        plt.close()
+        logger.info("NDVI PNG image saved")
 
+    def output_csv_data(self, ndvi_mean, ndvi_min, ndvi_max):
+        """
+        Generate and save NDVI statistics as CSV. 
 
-
+        Parameters:
+            ndvi_mean (float): Mean NDVI value.
+            ndvi_min (float): Minimum NDVI value.
+            ndvi_max (float): Maximum NDVI value.
+        """
+        logger.info("Generating NDVI statistics CSV")
+        parameters = ["mean_ndvi", "minimum_ndvi", "maximum_ndvi"]
+        values = [ndvi_mean, ndvi_min, ndvi_max]
+        ndvi_params_dict = {'parameters': parameters, 'value': values}
+        ndvi_params_df = pd.DataFrame(ndvi_params_dict)
+        output_folder = '../output'
+        if not os.path.exists(output_folder):
+            os.makedirs(output_folder)
+        ndvi_params_df.to_csv(os.path.join(output_folder, 'output.csv'), index=False)
+        logger.info("NDVI statistics CSV saved")

@@ -1,30 +1,44 @@
-import rasterio
-import geopandas as gpd
-from rasterio.windows import transform
-from rasterio.features import geometry_window, geometry_mask
 import numpy as np
-
+from logger_module import logger
 
 class CalcForNdvi:
+    """
+    A class to calculate NDVI (Normalized Difference Vegetation Index) and its statistics.
+
+    Attributes:
+        ndvi_max (float): Maximum NDVI value.
+        ndvi_min (float): Minimum NDVI value.
+        ndvi_mean (float): Mean NDVI value.
+        ndvi (numpy.ndarray): NDVI array.
+
+    """
     def __init__(self):
         self.ndvi_max = None
         self.ndvi_min = None
         self.ndvi_mean = None
         self.ndvi = None
 
-    def __int__(self):
-        pass
-        # Calculate NDVI
+    def calculate_ndvi(self, nir, red):
+        """
+        Calculate NDVI (Normalized Difference Vegetation Index).
 
-    def calc(self, nir, red):
+        Parameters:
+            nir (numpy.ndarray): Near Infrared band array.
+            red (numpy.ndarray): Red band array.
+        """
         # Calculate NDVI, handling division by zero
         with np.errstate(divide='ignore', invalid='ignore'):
-            self.ndvi = np.where((nir + red) == 0, 0, (nir - red) / (nir + red))
-        self.ndvi_mean = self.ndvi.mean()
-        self.ndvi_min = self.ndvi.min()
-        self.ndvi_max = self.ndvi.max()
-        print(f"HEREEE {self.ndvi_mean}{self.ndvi_min}{self.ndvi_max}")
-        print(self.ndvi)
+            self.ndvi = (nir - red) / (nir + red)
+        logger.info("NDVI calculated")
 
+        # Calculate statistics
+        self.calculate_statistics()
 
-
+    def calculate_statistics(self):
+        """
+        Calculate statistics of the NDVI array.
+        """
+        self.ndvi_mean = np.nanmean(self.ndvi)
+        self.ndvi_min = np.nanmin(self.ndvi)
+        self.ndvi_max = np.nanmax(self.ndvi)
+        logger.info("NDVI statistics calculated")
