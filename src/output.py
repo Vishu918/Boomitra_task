@@ -6,7 +6,7 @@ class OutputData:
     def __int__(self):
         pass
 
-    def output_png_data(self, feature, nir_src , ndvi , window, window_transform):
+    def output_png_data(self,  ndvi ):
         # # Save the masked NDVI to one tif per polygon
         # output_folder = r'output'
         # ndvi_path = f'ndvi_{feature["properties"]["Partner ID"]}.png'

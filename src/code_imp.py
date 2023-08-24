@@ -7,7 +7,7 @@ import numpy as np
 # Paths and URLs
 sentinel_2_imagery_b8 = "s3://sentinel-cogs/sentinel-s2-l2a-cogs/36/N/YF/2023/6/S2B_36NYF_20230605_0_L2A/B08.tif" #nir
 sentinel_2_imagery_b4 = "s3://sentinel-cogs/sentinel-s2-l2a-cogs/36/N/YF/2023/6/S2B_36NYF_20230605_0_L2A/B04.tif" #red
-polygon_file = "sample_polygon.geojson"  # Replace with actual path
+polygon_file = "input/sample_polygon.geojson"  # Replace with actual path
 
 # Read Polygon using geopandas
 polygon_gdf = gpd.read_file(polygon_file)
@@ -31,6 +31,7 @@ with rasterio.Env(AWS_NO_SIGN_REQUEST="YES"):
 
         # Calculate NDVI
         ndvi = (subset_b8 - subset_b4) / (subset_b8 + subset_b4)
+        print(ndvi)
 
 # Calculate statistics
 ndvi_mean = np.nanmean(ndvi)
