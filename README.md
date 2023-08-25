@@ -65,7 +65,7 @@ The script generates the following outputs:
 Sample outputs can be found in the "output" directory.[You can access output data from here.](output)
 
 **Note**
-You can check logs from app.log file [You can access app.log from here](src/app.log)
+You can check logs from app.log file [You can access app.log from here](app.log)
 
 ## References
 
