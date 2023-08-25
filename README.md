@@ -62,10 +62,10 @@ The script generates the following outputs:
 1. NDVI Image: A PNG image representing the NDVI values of the selected field region.
 2. Statistics: A text file or CSV file containing statistics (mean, min, max) of the NDVI image array.
 
-Sample outputs can be found in the "output" directory.[You can access input.json from here](output)
+Sample outputs can be found in the "output" directory.[You can access output data from here.](output)
 
 **Note**
-You can check logs from app.log file [You can access app.log from here](src/app.log)
+You can check logs from app.log file [You can access app.log from here](app.log)
 
 ## References
 
